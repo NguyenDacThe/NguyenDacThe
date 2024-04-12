@@ -1,0 +1,109 @@
+#include<iostream>
+#include<stdio.h>
+#include<conio.h>
+#include<iomanip>
+#include<ctype.h>
+#define MAX 100
+
+using namespace std;
+
+struct SINHVIEN{
+	char masv[10];
+	char hodem[22];
+	char ten[10];
+	int namsinh;
+	float diemtk;
+};
+struct List{
+ 	int count;
+ 	SINHVIEN E[MAX];
+};
+void create(List &L)
+{
+	L.count=-1;
+}
+int empty(List L)
+{
+	return (L.count==-1);
+}
+int full(List L)
+{
+	return L.count==MAX-1;
+}
+int Add(List &L,SINHVIEN X){
+	if(full(L))
+	return 0;
+	else{
+		L.count ++;
+		L.E[L.count]=X;
+		return 1;
+	}
+}
+void nhapsv(SINHVIEN &sv)
+{
+	cout<<"Nhap ma sv: "; fflush(stdin);
+	gets(sv.masv);
+	if(strcmp(sv.masv,"***")==0)
+		return;
+	cout<<"Ho dem: "; fflush(stdin);
+	gets(sv.hodem);
+	cout<<"Ten: "; fflush(stdin);
+	gets(sv.ten);
+	cout<<"Nam sinh: ";
+	cin>>sv.namsinh;
+	cout<<"Diem TK: ";
+	cin>>sv.diemtk;
+}
+void nhapDS(List &L)
+{
+	create(L);
+	SINHVIEN X;
+	int i=1;
+	do
+	{
+		cout<<"Nhap sv thu "<<i<<endl;
+		nhapsv(X);
+		if(strcmp(X.masv,"***")==0)
+			return;
+			if(!Add(L,X))
+				return;
+		i++;
+	}
+	while(1);
+}
+void hienthiDS(List L)
+{
+	cout<<setw(5)<<"STT";
+	cout<<setw(10)<<"Ma SV";
+	cout<<setw(15)<<"Ho va Ten";
+	cout<<setw(10)<<"Nam Sinh";
+	cout<<setw(10)<<"Diem TK"<<endl;
+	for(int i=0;i<=L.count;i++)
+	{
+		cout<<setw(5)<<(1+i);
+		cout<<setw(10)<<L.E[i].masv;
+		cout<<setw(14)<<L.E[i].hodem;
+		cout<<setw(8)<<L.E[i].ten;
+		cout<<setw(10)<<L.E[i].namsinh;
+		cout<<setw(10)<<L.E[i].diemtk<<endl;;
+	}
+}
+void del_first(List &L)
+{
+	if(empty(L))
+		return;
+	for(int i=1;i<=L.count;i++)
+	{
+		L.E[i-1]=L.E[i];
+	}
+	L.count--;
+}
+int main()
+{
+	List L;
+	nhapDS(L);
+	hienthiDS(L);
+	cout<<"Danh sach vua xoa sinh vien dau tien";
+	del_first(L);
+	hienthiDS(L);
+}
